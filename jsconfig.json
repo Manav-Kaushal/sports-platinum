@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": [
+        "./components/*"
+      ],
+      "@utils/*": [
+        "./utils/*"
+      ],
+      "@mocks/*": [
+        "./utils/Mocks/*"
+      ],
+      "@static/*": [
+        "./public/*"
+      ]
+    }
+  },
+  "exclude": [
+    ".next",
+    "node_modules",
+    "**/node_modules/*",
+    "**/.storybook/*",
+    "**/assets/*",
+    "**/build/*"
+  ]
+}
