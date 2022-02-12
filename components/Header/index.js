@@ -9,6 +9,7 @@ export const Header = () => {
         <div className="w-full py-6 flex items-center justify-between border-b border-indigo-500 lg:border-none">
           <div className="flex items-center">
             <Link href="/" passHref>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 className="h-10 w-auto cursor-pointer"
                 src="https://tailwindui.com/img/logos/workflow-mark.svg?color=white"

@@ -1,13 +1,16 @@
+import { Container } from "@components/Container";
+import { company } from "@utils/config";
 import { useRouter } from "next/router";
 
 const SingleNews = () => {
   const router = useRouter();
-  console.log({ router });
+  const slug = router.query.slug;
+
   return (
-    <div>
+    <Container title={`${slug} | ${company.name}`}>
       <h2>Single News</h2>
-      <h3>{router.query.slug}</h3>
-    </div>
+      <h3>{slug}</h3>
+    </Container>
   );
 };
 
