@@ -1,4 +1,6 @@
+import { company } from "@utils/config";
 import { navigation } from "@utils/Mocks/FooterData";
+import dayjs from "dayjs";
 
 export const Footer = () => {
   return (
@@ -9,7 +11,7 @@ export const Footer = () => {
             <a
               key={item.name}
               href={item.href}
-              className="text-gray-100 hover:text-white"
+              className={`text-gray-200 hover:[${item.hoverColor}]`}
             >
               <span className="sr-only">{item.name}</span>
               <item.icon className="h-6 w-6" aria-hidden="true" />
@@ -18,7 +20,7 @@ export const Footer = () => {
         </div>
         <div className="mt-8 md:mt-0 md:order-1">
           <p className="text-center text-base text-gray-100">
-            &copy; 2020 Workflow, Inc. All rights reserved.
+            &copy; {dayjs().year()} {company.name}, Inc. All rights reserved.
           </p>
         </div>
       </div>
