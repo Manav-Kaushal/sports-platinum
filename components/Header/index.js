@@ -1,9 +1,5 @@
-const navigation = [
-  { name: "Solutions", href: "#" },
-  { name: "Pricing", href: "#" },
-  { name: "Docs", href: "#" },
-  { name: "Company", href: "#" },
-];
+import navigation from "@utils/Mocks/HeaderData";
+import Image from "next/image";
 
 export const Header = () => {
   return (
@@ -13,7 +9,7 @@ export const Header = () => {
           <div className="flex items-center">
             <a href="#">
               <span className="sr-only">Workflow</span>
-              <img
+              <Image
                 className="h-10 w-auto"
                 src="https://tailwindui.com/img/logos/workflow-mark.svg?color=white"
                 alt=""
