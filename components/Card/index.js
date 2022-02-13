@@ -26,7 +26,7 @@ export const Card = ({ singleNews }) => {
             <div className="text-gray-800 transition duration-200 font-semibold text-xl mb-2 group-hover:text-indigo-500 line-clamp-2">
               {singleNews.name}
             </div>
-            <p className="text-gray-600 text-base line-clamp-3">
+            <p className="text-gray-600 text-base line-clamp-2">
               {singleNews.detail}
             </p>
           </div>

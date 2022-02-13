@@ -9,7 +9,7 @@ export default function Home({ news }) {
     <Container>
       <div>
         <main className="px-default py-6">
-          <h1 className="text-5xl mb-6 text-center font-bold">Latest News</h1>
+          <h1 className="text-4xl mb-6 text-center font-bold">Latest News</h1>
           {news.length === 0 && <h1>No News</h1>}
           <div className="grid grid-cols-2 gap-6">
             {news.map((item) => (

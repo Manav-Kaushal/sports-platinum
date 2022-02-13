@@ -6,7 +6,9 @@ export const Container = ({ title, description, keywords, children }) => {
   return (
     <div>
       <Head>
-        <title>{title}</title>
+        <title>
+          {title} | {company.name}
+        </title>
         <meta name="descriptions" content={description} />
         <meta name="keywords" content={keywords} />
       </Head>
@@ -16,7 +18,7 @@ export const Container = ({ title, description, keywords, children }) => {
 };
 
 Container.defaultProps = {
-  title: `${company.name} | Get Awesome Sports Updates`,
+  title: `Get Awesome Sports Updates`,
   description: "A website that brings latest sports news for you.",
   keywords:
     "sports, latest sports news, cricket, football, badminton, tennis, all sports",
