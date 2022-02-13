@@ -29,7 +29,10 @@ export const Header = () => {
             </div>
           </div>
           <div className="ml-10 space-x-4">
-            <Button onClick={() => console.log("Sign In is clicked!")}>
+            <Button
+              className="btn"
+              onClick={() => console.log("Sign In is clicked!")}
+            >
               Sign In
             </Button>
           </div>
