@@ -13,3 +13,5 @@ export const company = {
     instagram: "https://www.instagram.com/spacejoyapp/",
   },
 };
+
+export const API_URL = "http://localhost:3000";
