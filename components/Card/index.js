@@ -1,21 +1,28 @@
 import { Button } from "..";
 import Link from "next/link";
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+
+dayjs.extend(advancedFormat);
 
 export const Card = ({ singleNews }) => {
+  const imgUrl = singleNews?.image?.data?.attributes?.url;
   return (
     <Link href={`/news/${singleNews.slug}`} passHref>
-      <div className="group w-full lg:max-w-full lg:flex overflow-hidden shadow-sm cursor-pointer">
+      <div className="w-full overflow-hidden shadow-sm cursor-pointer group lg:max-w-full lg:flex">
         <div
-          className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
-          style={{ backgroundImage: `url(${singleNews.image})` }}
+          className="flex-none h-48 overflow-hidden text-center bg-cover rounded-t lg:h-auto lg:w-48 lg:rounded-t-none lg:rounded-l"
+          style={{
+            backgroundImage: `url(${imgUrl})`,
+          }}
           title={singleNews.name}
         />
 
-        <div className="border-r border-b border-l border-gray-200 lg:border-l-0 lg:border-t lg:border-gray-200 bg-white rounded-b lg:rounded-b-none overflow-hidden lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+        <div className="flex flex-col justify-between p-4 overflow-hidden leading-normal bg-white border-b border-l border-r border-gray-200 rounded-b lg:border-l-0 lg:border-t lg:border-gray-200 lg:rounded-b-none lg:rounded-r">
           <div className="mb-8">
-            {/* <p className="text-sm text-green-600 flex items-center">
+            {/* <p className="flex items-center text-sm text-green-600">
             <svg
-              className="fill-current text-green-500 w-3 h-3 mr-2"
+              className="w-3 h-3 mr-2 text-green-500 fill-current"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
             >
@@ -23,22 +30,26 @@ export const Card = ({ singleNews }) => {
             </svg>
             Members only
           </p> */}
-            <div className="text-gray-800 transition duration-200 font-semibold text-xl mb-2 group-hover:text-indigo-500 line-clamp-2">
+            <div className="mb-2 text-xl font-semibold text-gray-800 transition duration-200 group-hover:text-indigo-500 line-clamp-2">
               {singleNews.name}
             </div>
-            <p className="text-gray-600 text-base line-clamp-2">
+            <p className="text-base text-gray-600 line-clamp-2">
               {singleNews.detail}
             </p>
           </div>
           <div className="flex items-center space-x-2">
             <img
-              className="inline-block h-10 w-10 rounded-md"
+              className="inline-block w-10 h-10 rounded-md"
               src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
               alt=""
             />
             <div className="text-sm">
-              <p className="text-gray-800 leading-none">John Smith</p>
-              <p className="text-gray-600 text-xs">{singleNews.date}</p>
+              <p className="font-semibold leading-none text-gray-800">
+                John Smith
+              </p>
+              <p className="mt-1 text-xs text-gray-500">
+                {dayjs(singleNews.date).format("Do MMM YYYY, h:m A")}
+              </p>
             </div>
           </div>
         </div>

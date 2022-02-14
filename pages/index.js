@@ -5,15 +5,16 @@ import Link from "next/link";
 import { API_URL } from "@utils/config";
 
 export default function Home({ news }) {
+  console.log({ news });
   return (
     <Container>
       <div>
-        <main className="px-default py-6">
-          <h1 className="text-4xl mb-6 text-center font-bold">Latest News</h1>
+        <main className="py-6 px-default">
+          <h1 className="mb-6 text-4xl font-bold text-center">Latest News</h1>
           {news.length === 0 && <h1>No News</h1>}
           <div className="grid grid-cols-2 gap-6">
             {news.map((item) => (
-              <Card key={item.id} singleNews={item} />
+              <Card key={item.id} singleNews={item.attributes} />
             ))}
           </div>
           {news.length > 0 && (
@@ -30,10 +31,12 @@ export default function Home({ news }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`${API_URL}/api/news`);
+  const res = await fetch(
+    `${API_URL}/api/sports?populate=image&_sort=date:ASC&_limit=5`
+  );
   const news = await res.json();
 
   return {
-    props: { news: news.news.slice(0, 4) },
+    props: { news: news.data },
   };
 }
