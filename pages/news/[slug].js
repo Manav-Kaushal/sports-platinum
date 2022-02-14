@@ -17,7 +17,7 @@ const SingleNews = ({ news }) => {
               <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
                 {news.date}, {news.time}
               </h2>
-              <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+              <p className="max-w-[900px] mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                 {news.name}
               </p>
             </div>
