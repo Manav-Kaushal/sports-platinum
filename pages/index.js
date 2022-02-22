@@ -3,6 +3,7 @@ import { Card } from "@components/Card";
 import { Container } from "@components/Container";
 import Link from "next/link";
 import { API_URL } from "@utils/config";
+import toast from "react-hot-toast";
 
 export default function Home({ news }) {
   console.log({ news });

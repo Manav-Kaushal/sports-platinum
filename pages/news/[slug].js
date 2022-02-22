@@ -2,16 +2,19 @@ import { Container } from "@components/Container";
 import { API_URL, company } from "@utils/config";
 import { useRouter } from "next/router";
 // import Link from "next/link";
-import { ChevronLeftIcon } from "@heroicons/react/outline";
+import { ArrowNarrowLeftIcon } from "@heroicons/react/outline";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 
 dayjs.extend(advancedFormat);
 
 const SingleNews = ({ news }) => {
-  console.log({ news });
+  console.log("current news:", news);
   const router = useRouter();
-  const imgUrl = news.image.data.attributes.url;
+  const imgUrl =
+    news?.image?.data?.attributes?.url ||
+    "https://via.placeholder.com/728x150.webp?text=Image+Not+Available";
+
   return (
     <Container title={`${news.name} | ${company.name}`}>
       <div className="px-4 py-16 overflow-hidden bg-white xl:py-36 sm:px-6 lg:px-8">
@@ -19,7 +22,7 @@ const SingleNews = ({ news }) => {
           <div className="relative z-10 mb-8 md:mb-2 md:px-6">
             <div className="text-base max-w-prose lg:max-w-none">
               <h2 className="font-semibold leading-6 tracking-wide text-indigo-600 uppercase">
-                {dayjs(news.date).format("Do MMM YYYY, h:m A")}
+                {dayjs(news.date).format("Do MMM YYYY, h:mm A")}
               </h2>
               <p className="max-w-[900px] mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                 {news.name}
@@ -105,9 +108,9 @@ const SingleNews = ({ news }) => {
               <div className="mt-8">
                 <a
                   onClick={() => router.back()}
-                  className="inline-flex items-center space-x-2 transition duration-200 cursor-pointer hover:text-indigo-500"
+                  className="inline-flex items-center space-x-2 text-gray-400 transition duration-200 cursor-pointer hover:text-indigo-500"
                 >
-                  <ChevronLeftIcon className="w-4 h-4 mr-1" />
+                  <ArrowNarrowLeftIcon className="w-4 h-4 mr-1" />
                   Go Back
                 </a>
               </div>
@@ -122,9 +125,12 @@ const SingleNews = ({ news }) => {
 export async function getServerSideProps({ query: { slug } }) {
   const res = await fetch(`${API_URL}/api/sports?populate=image&slug=${slug}`);
   const singleNews = await res.json();
-
+  console.log({ singleNews });
   return {
-    props: { news: singleNews.data[0].attributes },
+    props: {
+      news: singleNews.data.find((item) => item.attributes.slug === slug)
+        .attributes,
+    },
   };
 }
 

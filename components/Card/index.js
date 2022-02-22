@@ -6,7 +6,9 @@ import advancedFormat from "dayjs/plugin/advancedFormat";
 dayjs.extend(advancedFormat);
 
 export const Card = ({ singleNews }) => {
-  const imgUrl = singleNews?.image?.data?.attributes?.url;
+  const imgUrl =
+    singleNews?.image?.data?.attributes?.url ||
+    "https://via.placeholder.com/600x600.webp?text=Image+Not+Available";
   return (
     <Link href={`/news/${singleNews.slug}`} passHref>
       <div className="w-full overflow-hidden shadow-sm cursor-pointer group lg:max-w-full lg:flex">
@@ -18,18 +20,18 @@ export const Card = ({ singleNews }) => {
           title={singleNews.name}
         />
 
-        <div className="flex flex-col justify-between p-4 overflow-hidden leading-normal bg-white border-b border-l border-r border-gray-200 rounded-b lg:border-l-0 lg:border-t lg:border-gray-200 lg:rounded-b-none lg:rounded-r">
+        <div className="flex flex-col justify-between p-4 overflow-hidden leading-normal bg-white border-b border-l border-r border-gray-200 rounded-b lg:border-l-0 lg:border-t lg:border-gray-200 lg:rounded-b-none lg:rounded-r grow">
           <div className="mb-8">
             {/* <p className="flex items-center text-sm text-green-600">
-            <svg
-              className="w-3 h-3 mr-2 text-green-500 fill-current"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
-            </svg>
-            Members only
-          </p> */}
+              <svg
+                className="w-3 h-3 mr-2 text-green-500 fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
+              </svg>
+              Members only
+            </p> */}
             <div className="mb-2 text-xl font-semibold text-gray-800 transition duration-200 group-hover:text-indigo-500 line-clamp-2">
               {singleNews.name}
             </div>
@@ -48,7 +50,7 @@ export const Card = ({ singleNews }) => {
                 John Smith
               </p>
               <p className="mt-1 text-xs text-gray-500">
-                {dayjs(singleNews.date).format("Do MMM YYYY, h:m A")}
+                {dayjs(singleNews.date).format("Do MMM YYYY, h:mm A")}
               </p>
             </div>
           </div>
