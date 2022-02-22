@@ -3,7 +3,14 @@ import { Container } from "@components/Container";
 import { API_URL } from "@utils/config";
 
 const index = ({ news }) => {
-  console.log({ news });
+  const removeNews = async (id) => {
+    await fetch(`${API_URL}/api/sports/${id}`, {
+      method: "DELETE",
+    })
+      .then(() => console.log("Removed, ID:", id))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <Container title="News">
       <div>
@@ -12,7 +19,7 @@ const index = ({ news }) => {
           {news.length === 0 && <h1>No News</h1>}
           <div className="grid grid-cols-2 gap-6">
             {news.map((item) => (
-              <Card key={item.id} singleNews={item.attributes} />
+              <Card key={item.id} singleNews={item} cb={removeNews} />
             ))}
           </div>
         </main>

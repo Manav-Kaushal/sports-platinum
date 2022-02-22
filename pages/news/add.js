@@ -41,7 +41,6 @@ const add = () => {
       .then((data) => {
         if (data.data.attributes.slug) {
           const slug = data.data.attributes.slug;
-          console.log("slug:", slug);
           router.push(`/news/${slug}`);
           toast.success("News added... redirecting!");
         } else {
