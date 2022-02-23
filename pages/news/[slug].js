@@ -1,31 +1,52 @@
 import { Container } from "@components/Container";
 import { API_URL, company } from "@utils/config";
 import { useRouter } from "next/router";
-// import Link from "next/link";
-import { ArrowNarrowLeftIcon } from "@heroicons/react/outline";
+import Link from "next/link";
+import {
+  ArrowNarrowLeftIcon,
+  PencilIcon,
+  TrashIcon,
+} from "@heroicons/react/outline";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
+import toast from "react-hot-toast";
 
 dayjs.extend(advancedFormat);
 
 const SingleNews = ({ news }) => {
-  console.log("current news:", news);
+  const singleNews = news.attributes;
   const router = useRouter();
   const imgUrl =
     news?.image?.data?.attributes?.url ||
     "https://via.placeholder.com/728x150.webp?text=Image+Not+Available";
 
+  const deleteSingleNews = async (id) => {
+    if (window.confirm("Are you sure that you want to delete this news?")) {
+      const res = await fetch(`${API_URL}/api/sports/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message);
+      } else {
+        router.push("/news");
+      }
+    }
+  };
+
   return (
-    <Container title={`${news.name} | ${company.name}`}>
+    <Container title={`${singleNews.name} | ${company.name}`}>
       <div className="px-4 py-16 overflow-hidden bg-white xl:py-36 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-max lg:max-w-7xl">
           <div className="relative z-10 mb-8 md:mb-2 md:px-6">
             <div className="text-base max-w-prose lg:max-w-none">
               <h2 className="font-semibold leading-6 tracking-wide text-indigo-600 uppercase">
-                {dayjs(news.date).format("Do MMM YYYY, h:mm A")}
+                {dayjs(singleNews.date).format("Do MMM YYYY, h:mm A")}
               </h2>
               <p className="max-w-[900px] mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                {news.name}
+                {singleNews.name}
               </p>
             </div>
           </div>
@@ -99,15 +120,30 @@ const SingleNews = ({ news }) => {
             <div className="relative md:bg-white md:p-6">
               <div className="lg:grid lg:grid-cols-2 lg:gap-6">
                 <div className="prose prose-lg text-gray-500 prose-indigo lg:max-w-none">
-                  <img src={imgUrl} alt={news.name} />
+                  <img src={imgUrl} alt={singleNews.name} />
                 </div>
                 <div className="mt-6 prose prose-lg text-gray-500 prose-indigo lg:mt-0">
-                  <p>{news.detail}</p>
+                  <p>{singleNews.detail}</p>
+                  <div className="flex items-center justify-start space-x-2">
+                    <Link href={`/news/edit/${news.id}`}>
+                      <div className="p-3 transition duration-200 bg-indigo-100 rounded-md cursor-pointer hover:shadow-md">
+                        <PencilIcon className="w-4 h-4 text-indigo-500" />
+                      </div>
+                    </Link>
+                    <div
+                      className="p-3 transition duration-200 bg-red-100 rounded-md cursor-pointer hover:shadow-md"
+                      onClick={() => deleteSingleNews(news.id)}
+                    >
+                      <TrashIcon className="w-4 h-4 text-red-500" />
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="mt-8">
                 <a
-                  onClick={() => router.back()}
+                  onClick={() => {
+                    router.push("/news");
+                  }}
                   className="inline-flex items-center space-x-2 text-gray-400 transition duration-200 cursor-pointer hover:text-indigo-500"
                 >
                   <ArrowNarrowLeftIcon className="w-4 h-4 mr-1" />
@@ -128,8 +164,7 @@ export async function getServerSideProps({ query: { slug } }) {
   console.log({ singleNews });
   return {
     props: {
-      news: singleNews.data.find((item) => item.attributes.slug === slug)
-        .attributes,
+      news: singleNews.data.find((item) => item.attributes.slug === slug),
     },
   };
 }

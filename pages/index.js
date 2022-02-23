@@ -6,7 +6,6 @@ import { API_URL } from "@utils/config";
 import toast from "react-hot-toast";
 
 export default function Home({ news }) {
-  console.log({ news });
   return (
     <Container>
       <div>
@@ -15,7 +14,7 @@ export default function Home({ news }) {
           {news.length === 0 && <h1>No News</h1>}
           <div className="grid grid-cols-2 gap-6">
             {news.map((item) => (
-              <Card key={item.id} singleNews={item.attributes} />
+              <Card key={item.id} singleNews={item} />
             ))}
           </div>
           {news.length > 0 && (

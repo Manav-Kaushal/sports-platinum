@@ -1,11 +1,10 @@
 import Link from "next/link";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
-import { TrashIcon, PencilIcon } from "@heroicons/react/outline";
 
 dayjs.extend(advancedFormat);
 
-export const Card = ({ singleNews, cb }) => {
+export const Card = ({ singleNews }) => {
   const imgUrl =
     singleNews?.attributes?.image?.data?.attributes?.url ||
     "https://via.placeholder.com/600x600.webp?text=Image+Not+Available";
@@ -16,10 +15,10 @@ export const Card = ({ singleNews, cb }) => {
         style={{
           backgroundImage: `url(${imgUrl})`,
         }}
-        title={singleNews.attributes.name}
+        title={singleNews?.attributes?.name}
       />
 
-      <div className="flex justify-between p-4 overflow-hidden leading-normal bg-white border-b border-l border-r border-gray-200 rounded-b lg:border-l-0 lg:border-t lg:border-gray-200 lg:rounded-b-none lg:rounded-r">
+      <div className="flex justify-between p-4 overflow-hidden leading-normal bg-white border-b border-l border-r border-gray-200 rounded-b lg:border-l-0 lg:border-t lg:border-gray-200 lg:rounded-b-none lg:rounded-r grow">
         <div>
           <div className="mb-8">
             {/* <p className="flex items-center text-sm text-green-600">
@@ -32,13 +31,13 @@ export const Card = ({ singleNews, cb }) => {
               </svg>
               Members only
             </p> */}
-            <Link href={`/news/${singleNews.attributes.slug}`} passHref>
-              <div className="mb-2 text-xl font-semibold text-gray-800 transition duration-200 cursor-pointer hover:text-indigo-500 line-clamp-2">
-                {singleNews.attributes.name}
+            <Link href={`/news/${singleNews?.attributes?.slug}`} passHref>
+              <div className="mb-2 text-xl font-semibold text-gray-800 transition duration-200 cursor-pointer hover:text-indigo-500 line-clamp-1">
+                {singleNews?.attributes?.name}
               </div>
             </Link>
             <p className="text-base text-gray-600 line-clamp-2">
-              {singleNews.attributes.detail}
+              {singleNews?.attributes?.detail}
             </p>
           </div>
           <div className="flex items-center space-x-2">
@@ -55,19 +54,6 @@ export const Card = ({ singleNews, cb }) => {
                 {dayjs(singleNews.date).format("Do MMM YYYY, h:mm A")}
               </p>
             </div>
-          </div>
-        </div>
-        <div className="flex flex-col justify-end space-y-2">
-          <Link href={`/news/edit/${singleNews.id}`}>
-            <div className="p-3 transition duration-200 bg-indigo-100 rounded-md cursor-pointer hover:shadow-md">
-              <PencilIcon className="w-4 h-4 text-indigo-500" />
-            </div>
-          </Link>
-          <div
-            className="p-3 transition duration-200 bg-red-100 rounded-md cursor-pointer hover:shadow-md"
-            onClick={() => cb(singleNews.id)}
-          >
-            <TrashIcon className="w-4 h-4 text-red-500" />
           </div>
         </div>
       </div>

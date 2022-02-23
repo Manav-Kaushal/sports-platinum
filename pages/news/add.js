@@ -1,6 +1,7 @@
 import { Container } from "@components/Container";
 import { API_URL } from "@utils/config";
 import axios from "axios";
+import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -129,7 +130,7 @@ const add = () => {
                         type="date"
                         name="date"
                         id="date"
-                        value={date}
+                        value={dayjs(date).format("YYYY-MM-DD")}
                         onChange={handleInputChange}
                         autoComplete="off"
                         className="flex-1 block w-full min-w-0 border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 rounded-r-md sm:text-sm"
