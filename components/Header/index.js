@@ -30,12 +30,9 @@ export const Header = () => {
           </div>
           <div className="flex items-center ml-10 space-x-4">
             <SearchInput />
-            <Button
-              className="btn"
-              onClick={() => console.log("Sign In is clicked!")}
-            >
-              Login
-            </Button>
+            <Link href="/auth/signin">
+              <button className="btn">Login</button>
+            </Link>
           </div>
         </div>
         <div className="flex flex-wrap justify-center py-4 space-x-6 lg:hidden">
