@@ -3,6 +3,7 @@ import { Container } from "@components/Container";
 import { API_URL } from "@utils/config";
 
 const index = ({ news }) => {
+  console.log({ news });
   return (
     <Container title="News">
       <div>
@@ -21,7 +22,7 @@ const index = ({ news }) => {
 };
 
 export async function getServerSideProps() {
-  const res = await fetch(`${API_URL}/api/sports?populate=image`);
+  const res = await fetch(`${API_URL}/api/sports?sort=date&populate=image`);
   const news = await res.json();
 
   return {

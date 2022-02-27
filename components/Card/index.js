@@ -51,7 +51,9 @@ export const Card = ({ singleNews }) => {
                 John Smith
               </p>
               <p className="mt-1 text-xs text-gray-500">
-                {dayjs(singleNews.date).format("Do MMM YYYY, h:mm A")}
+                {dayjs(singleNews?.attributes?.date).format(
+                  "Do MMM YYYY, h:mm A"
+                )}
               </p>
             </div>
           </div>
