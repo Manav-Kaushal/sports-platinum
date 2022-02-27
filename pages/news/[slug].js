@@ -17,7 +17,7 @@ const SingleNews = ({ news }) => {
   const singleNews = news.attributes;
   const router = useRouter();
   const imgUrl =
-    news?.image?.data?.attributes?.url ||
+    singleNews?.image?.data?.attributes?.url ||
     "https://via.placeholder.com/728x150.webp?text=Image+Not+Available";
 
   const deleteSingleNews = async (id) => {

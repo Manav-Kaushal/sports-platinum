@@ -1,19 +1,40 @@
 import { Container } from "@components/Container";
 import { API_URL } from "@utils/config";
 // import axios from "axios";
+import Image from "next/image";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { ImageUploader } from "@components/ImageUploader";
+import { Modal } from "@components/Modal";
 
 const edit = ({ editSingleNews }) => {
   const router = useRouter();
+  const imgObj = editSingleNews?.data?.attributes?.image?.data?.attributes;
   const [values, setValues] = useState({
     name: editSingleNews?.data?.attributes?.name,
     detail: editSingleNews?.data?.attributes?.detail,
     date: editSingleNews?.data?.attributes?.date,
   });
+  const [ImagePreview, setImagePreview] = useState(
+    imgObj ? imgObj.formats.thumbnail.url : null
+  );
+  const [open, setOpen] = useState(false);
+
   const { name, detail, date } = values;
+
+  const imageUploaded = async () => {
+    const res = await fetch(
+      `${API_URL}/api/sports/${editSingleNews.data.id}?populate=image`
+    );
+    const data = await res.json();
+    console.log({ data });
+    setImagePreview(
+      data?.data?.attributes?.image?.data?.attributes?.formats?.thumbnail?.url
+    );
+    setOpen(false);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -51,7 +72,7 @@ const edit = ({ editSingleNews }) => {
   };
 
   return (
-    <Container title="Add a Sport's News">
+    <Container title="Edit News">
       <div className="py-8 px-default">
         <form
           onSubmit={handleSubmit}
@@ -61,7 +82,7 @@ const edit = ({ editSingleNews }) => {
             <div>
               <div>
                 <h3 className="text-2xl font-medium leading-6 text-gray-900">
-                  Add a News
+                  Edit News
                 </h3>
                 <p className="max-w-2xl mt-1 text-sm text-gray-500">
                   This information will be displayed publicly so be careful what
@@ -133,52 +154,34 @@ const edit = ({ editSingleNews }) => {
                   </div>
                 </div>
 
-                {/* <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                   <label
                     htmlFor="cover-photo"
                     className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                   >
                     Cover photo:
                   </label>
-                  <div className="mt-1 sm:mt-0 sm:col-span-2">
-                    <div className="flex justify-center max-w-lg px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                      <div className="space-y-1 text-center">
-                        <svg
-                          className="w-12 h-12 mx-auto text-gray-400"
-                          stroke="currentColor"
-                          fill="none"
-                          viewBox="0 0 48 48"
-                          aria-hidden="true"
-                        >
-                          <path
-                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        <div className="flex text-sm text-gray-600">
-                          <label
-                            htmlFor="file-upload"
-                            className="relative font-medium text-indigo-600 bg-white rounded-md cursor-pointer hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-                          >
-                            <span>Upload a file</span>
-                            <input
-                              id="file-upload"
-                              name="file-upload"
-                              type="file"
-                              className="sr-only"
-                            />
-                          </label>
-                          <p className="pl-1">or drag and drop</p>
-                        </div>
-                        <p className="text-xs text-gray-500">
-                          PNG, JPG, GIF up to 10MB
-                        </p>
+                  <div className="mt-1 space-y-2 sm:mt-0 sm:col-span-2">
+                    {ImagePreview ? (
+                      <div className="flex flex-col items-start space-y-2">
+                        <Image src={ImagePreview} width={140} height={120} />
                       </div>
+                    ) : (
+                      <div>
+                        <p>No Image Available</p>
+                      </div>
+                    )}
+                    <div>
+                      <button
+                        type="button"
+                        className="text-indigo-500"
+                        onClick={() => setOpen(!open)}
+                      >
+                        Upload Image
+                      </button>
                     </div>
                   </div>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>
@@ -199,12 +202,18 @@ const edit = ({ editSingleNews }) => {
           </div>
         </form>
       </div>
+      <Modal open={open} setOpen={setOpen}>
+        <ImageUploader
+          sportsNewsId={editSingleNews.data.id}
+          cb={imageUploaded}
+        />
+      </Modal>
     </Container>
   );
 };
 
 export async function getServerSideProps({ params: { id } }) {
-  const res = await fetch(`${API_URL}/api/sports/${id}`);
+  const res = await fetch(`${API_URL}/api/sports/${id}?populate=image`);
   const editSingleNews = await res.json();
   console.log(editSingleNews);
   return {
