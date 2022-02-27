@@ -6,3 +6,4 @@ export { Footer } from "./Footer";
 export { ImageUploader } from "./ImageUploader";
 export { Modal } from "./Modal";
 export { Loader } from "./Loader";
+export { SearchInput } from "./SearchInput";
