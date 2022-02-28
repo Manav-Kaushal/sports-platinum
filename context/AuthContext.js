@@ -1,8 +1,7 @@
 import { NEXT_URL } from "@utils/config";
 import { useRouter } from "next/router";
-import toast from "react-hot-toast";
 
-const { createContext, useState } = require("react");
+const { createContext, useState, useEffect } = require("react");
 
 const AuthContext = createContext();
 
@@ -10,6 +9,10 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const router = useRouter();
+
+  useEffect(() => {
+    checkUserLoggedIn();
+  }, []);
 
   const signup = async (user) => {
     console.log(user);
@@ -42,7 +45,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   const checkUserLoggedIn = async (user) => {
-    console.log("check");
+    const res = await fetch(`${NEXT_URL}/api/user`);
+    const data = await res.json();
+
+    if (res.ok) {
+      setUser(data.user);
+    } else {
+      setUser(null);
+    }
   };
 
   return (
