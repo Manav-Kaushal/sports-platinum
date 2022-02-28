@@ -212,7 +212,8 @@ const edit = ({ editSingleNews }) => {
   );
 };
 
-export async function getServerSideProps({ params: { id } }) {
+export async function getServerSideProps({ params: { id }, req }) {
+  console.log(req.headers.cookie);
   const res = await fetch(`${API_URL}/api/sports/${id}?populate=image`);
   const editSingleNews = await res.json();
   console.log(editSingleNews);

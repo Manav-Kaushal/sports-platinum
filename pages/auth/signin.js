@@ -1,12 +1,24 @@
 import { Container } from "@components/Container";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
+import AuthContext from "context/AuthContext";
+import toast from "react-hot-toast";
 
 const SignInPage = () => {
+  const { signin, error } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignInSubmit = () => {};
+  const handleSignInSubmit = (e) => {
+    e.preventDefault();
+    signin({ email, password });
+  };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   return (
     <Container title="Sign In">

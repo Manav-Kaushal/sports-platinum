@@ -35,6 +35,6 @@ export async function getServerSideProps() {
   const news = await res.json();
 
   return {
-    props: { news: news.data.slice(0, 4) },
+    props: { news: news?.data?.slice(0, 4) },
   };
 }

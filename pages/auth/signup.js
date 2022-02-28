@@ -1,9 +1,11 @@
 import { Container } from "@components/Container";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import AuthContext from "context/AuthContext";
 
 const SignUpPage = () => {
+  const { signup, error } = useContext(AuthContext);
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,6 +17,7 @@ const SignUpPage = () => {
       toast.error("Passwords do not match!");
       return;
     }
+    signup({ userName, email, password });
   };
 
   return (

@@ -18,6 +18,9 @@
       ],
       "@static/*": [
         "./public/*"
+      ],
+      "@context/*": [
+        "./context/*"
       ]
     }
   },
